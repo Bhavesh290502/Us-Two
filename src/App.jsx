@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, LogOut } from 'lucide-react';
+import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, LogOut, Gift } from 'lucide-react';
 import BackgroundSlider from './components/BackgroundSlider';
 import MemoriesGallery from './components/MemoriesGallery';
 import BucketList from './components/BucketList';
@@ -11,6 +11,7 @@ import MusicPlayer from './components/MusicPlayer';
 import Places from './components/Places';
 import Countdown from './components/Countdown';
 import OpenWhen from './components/OpenWhen';
+import Wishlist from './components/Wishlist';
 import { supabase } from './supabase';
 import './App.css';
 
@@ -47,6 +48,7 @@ export default function App() {
     { id: 'places', label: 'Places', icon: <MapPin />, gradient: 'linear-gradient(to bottom right, #fb923c, #f59e0b)', component: <Places onClose={() => setActiveModal(null)} /> },
     { id: 'countdown', label: 'Countdown', icon: <Clock />, gradient: 'linear-gradient(to bottom right, #d946ef, #9333ea)', component: <Countdown onClose={() => setActiveModal(null)} /> },
     { id: 'openwhen', label: 'Open When', icon: <Mail />, gradient: 'linear-gradient(to bottom right, #fb7185, #ef4444)', component: <OpenWhen onClose={() => setActiveModal(null)} /> },
+    { id: 'wishlist', label: 'Wishlist', icon: <Gift />, gradient: 'linear-gradient(to bottom right, #f472b6, #db2777)', component: <Wishlist onClose={() => setActiveModal(null)} /> },
   ];
 
   return (

@@ -6,6 +6,7 @@ ALTER TABLE places ENABLE ROW LEVEL SECURITY;
 ALTER TABLE countdown ENABLE ROW LEVEL SECURITY;
 ALTER TABLE letters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE song ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wishlist ENABLE ROW LEVEL SECURITY;
 
 -- Create policies to allow access only to authenticated users
 -- This ensures that no one can access your data unless they are logged in
@@ -36,4 +37,8 @@ FOR ALL USING (auth.role() = 'authenticated');
 
 -- Song
 CREATE POLICY "Allow all for authenticated users" ON song
+FOR ALL USING (auth.role() = 'authenticated');
+
+-- Wishlist
+CREATE POLICY "Allow all for authenticated users" ON wishlist
 FOR ALL USING (auth.role() = 'authenticated');
