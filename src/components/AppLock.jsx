@@ -5,7 +5,7 @@ import { Lock, Unlock } from 'lucide-react';
 export default function AppLock({ onUnlock }) {
     const [pin, setPin] = useState('');
     const [error, setError] = useState(false);
-    const CORRECT_PIN = '1430'; // Default PIN (I Love You)
+    const CORRECT_PIN = '1304'; // Default PIN (I Love You)
 
     useEffect(() => {
         if (pin.length === 4) {
