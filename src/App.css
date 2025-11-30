@@ -265,6 +265,8 @@ body {
   padding: 1rem;
   color: white;
   font-family: inherit;
+  font-size: 16px;
+  /* Prevents zoom on iOS */
   box-sizing: border-box;
   transition: border-color 0.2s;
 }
