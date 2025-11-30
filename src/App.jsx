@@ -12,12 +12,14 @@ import Places from './components/Places';
 import Countdown from './components/Countdown';
 import OpenWhen from './components/OpenWhen';
 import Wishlist from './components/Wishlist';
+import AppLock from './components/AppLock';
 import { supabase } from './supabase';
 import './App.css';
 
 export default function App() {
   const [session, setSession] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
+  const [isLocked, setIsLocked] = useState(true);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -38,6 +40,7 @@ export default function App() {
   };
 
   if (!session) return <Login />;
+  if (isLocked) return <AppLock onUnlock={() => setIsLocked(false)} />;
 
   const menuItems = [
     { id: 'memories', label: 'Memories', icon: <Camera />, gradient: 'linear-gradient(to bottom right, #ec4899, #f43f5e)', component: <MemoriesGallery onClose={() => setActiveModal(null)} /> },
