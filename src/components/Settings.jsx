@@ -55,6 +55,7 @@ export default function Settings({ onClose }) {
     };
 
     const deleteBackground = async (id, url) => {
+        if (!window.confirm('Are you sure you want to delete this background?')) return;
         setBackgrounds(backgrounds.filter(bg => bg.id !== id));
         await supabase.from('backgrounds').delete().eq('id', id);
 

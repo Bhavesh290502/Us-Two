@@ -43,6 +43,7 @@ export default function Countdown({ onClose }) {
     };
 
     const deleteEvent = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this event?')) return;
         setEvents(events.filter(e => e.id !== id));
         await supabase
             .from('countdown')

@@ -45,6 +45,7 @@ export default function BucketList({ onClose }) {
     };
 
     const deleteItem = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this dream?')) return;
         setItems(items.filter(item => item.id !== id));
         await supabase
             .from('bucketlist')

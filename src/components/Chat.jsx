@@ -104,7 +104,7 @@ export default function Chat({ onClose, session }) {
                                         marginTop: '0.25rem',
                                         alignSelf: isMe ? 'flex-end' : 'flex-start'
                                     }}>
-                                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        {new Date(msg.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' })} • {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </span>
                                 </div>
                             );

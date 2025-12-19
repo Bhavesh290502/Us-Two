@@ -79,6 +79,7 @@ export default function MemoriesGallery({ onClose }) {
     };
 
     const deleteMemory = async (id, imageUrl) => {
+        if (!window.confirm('Are you sure you want to delete this memory?')) return;
         setMemories(memories.filter(m => m.id !== id));
 
         // Delete from DB
@@ -95,6 +96,34 @@ export default function MemoriesGallery({ onClose }) {
         if (!url) return false;
         // Check extension or data URI
         return url.match(/\.(mp4|webm|ogg|mov)$/i) || url.startsWith('data:video');
+    };
+
+    const [selectedMemory, setSelectedMemory] = useState(null);
+
+    const downloadMemory = async (e, memory) => {
+        e.stopPropagation();
+        try {
+            const response = await fetch(memory.image);
+            const blob = await response.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = `memory_${memory.date || 'download'}.${blob.type.split('/')[1]}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error('Download failed:', error);
+            // Fallback for simple link download if fetch fails (e.g. CORS)
+            const link = document.createElement('a');
+            link.href = memory.image;
+            link.target = '_blank';
+            link.download = `memory_${memory.date || 'download'}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     };
 
     return (
@@ -179,15 +208,20 @@ export default function MemoriesGallery({ onClose }) {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 className="memory-card"
+                                onClick={() => setSelectedMemory(memory)}
+                                style={{ cursor: 'pointer' }}
                             >
                                 {isVideo(memory.image) ? (
                                     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                                         <video
                                             src={memory.image}
                                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                            controls
+                                            muted
                                             preload="metadata"
                                         />
+                                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.2)' }}>
+                                            <Play size={48} fill="rgba(255,255,255,0.8)" color="transparent" />
+                                        </div>
                                     </div>
                                 ) : (
                                     <img src={memory.image} alt={memory.caption} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -200,7 +234,7 @@ export default function MemoriesGallery({ onClose }) {
                                     </p>
                                 </div>
                                 <button
-                                    onClick={() => deleteMemory(memory.id, memory.image)}
+                                    onClick={(e) => { e.stopPropagation(); deleteMemory(memory.id, memory.image); }}
                                     className="close-btn"
                                     style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: 'rgba(0,0,0,0.5)', zIndex: 10 }}
                                 >
@@ -211,6 +245,67 @@ export default function MemoriesGallery({ onClose }) {
                     </div>
                 </div>
             </div>
+
+            <AnimatePresence>
+                {selectedMemory && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{
+                            position: 'fixed', inset: 0, zIndex: 2000,
+                            background: 'rgba(0,0,0,0.95)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            padding: '2rem'
+                        }}
+                        onClick={() => setSelectedMemory(null)}
+                    >
+                        <button
+                            onClick={() => setSelectedMemory(null)}
+                            style={{
+                                position: 'absolute', top: '2rem', right: '2rem',
+                                background: 'transparent', border: 'none', color: 'white', cursor: 'pointer'
+                            }}
+                        >
+                            <X size={32} />
+                        </button>
+
+                        <div
+                            style={{ maxWidth: '90%', maxHeight: '90%', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            {isVideo(selectedMemory.image) ? (
+                                <video
+                                    src={selectedMemory.image}
+                                    controls
+                                    autoPlay
+                                    style={{ maxWidth: '100%', maxHeight: '80vh', borderRadius: '8px', boxShadow: '0 0 20px rgba(0,0,0,0.5)' }}
+                                />
+                            ) : (
+                                <img
+                                    src={selectedMemory.image}
+                                    alt={selectedMemory.caption}
+                                    style={{ maxWidth: '100%', maxHeight: '80vh', borderRadius: '8px', boxShadow: '0 0 20px rgba(0,0,0,0.5)' }}
+                                />
+                            )}
+
+                            <div style={{ marginTop: '1rem', textAlign: 'center', color: 'white' }}>
+                                <h3 style={{ margin: '0 0 0.5rem 0' }}>{selectedMemory.caption}</h3>
+                                <p style={{ opacity: 0.7, margin: 0, fontSize: '0.9rem', marginBottom: '1rem' }}>
+                                    {selectedMemory.date && new Date(selectedMemory.date).toLocaleDateString(undefined, { dateStyle: 'long' })}
+                                </p>
+                                <button
+                                    onClick={(e) => downloadMemory(e, selectedMemory)}
+                                    className="btn-primary"
+                                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1.5rem' }}
+                                >
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 }

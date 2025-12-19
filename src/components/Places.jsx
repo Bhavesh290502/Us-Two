@@ -36,6 +36,7 @@ export default function Places({ onClose }) {
     };
 
     const deletePlace = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this adventure?')) return;
         setPlaces(places.filter(p => p.id !== id));
         await supabase
             .from('places')

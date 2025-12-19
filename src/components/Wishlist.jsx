@@ -44,6 +44,7 @@ export default function Wishlist({ onClose }) {
     };
 
     const deleteItem = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this gift idea?')) return;
         setItems(items.filter(i => i.id !== id));
         await supabase
             .from('wishlist')

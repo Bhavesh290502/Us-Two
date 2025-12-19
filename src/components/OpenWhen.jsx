@@ -37,6 +37,7 @@ export default function OpenWhen({ onClose }) {
     };
 
     const deleteLetter = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this letter?')) return;
         setLetters(letters.filter(l => l.id !== id));
         await supabase
             .from('letters')

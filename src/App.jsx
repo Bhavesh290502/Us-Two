@@ -4,7 +4,7 @@ import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, L
 import BackgroundSlider from './components/BackgroundSlider';
 import MemoriesGallery from './components/MemoriesGallery';
 import BucketList from './components/BucketList';
-import DateNight from './components/DateNight';
+
 import Login from './components/Login';
 import Chat from './components/Chat';
 import MusicPlayer from './components/MusicPlayer';
@@ -46,7 +46,7 @@ export default function App() {
   const menuItems = [
     { id: 'memories', label: 'Memories', icon: <Camera />, gradient: 'linear-gradient(to bottom right, #ec4899, #f43f5e)', component: <MemoriesGallery onClose={() => setActiveModal(null)} /> },
     { id: 'bucketlist', label: 'Bucket List', icon: <List />, gradient: 'linear-gradient(to bottom right, #a855f7, #6366f1)', component: <BucketList onClose={() => setActiveModal(null)} /> },
-    { id: 'datenight', label: 'Date Night', icon: <Moon />, gradient: 'linear-gradient(to bottom right, #60a5fa, #06b6d4)', component: <DateNight onClose={() => setActiveModal(null)} /> },
+
     { id: 'chat', label: 'Love Notes', icon: <MessageCircle />, gradient: 'linear-gradient(to bottom right, #f87171, #db2777)', component: <Chat onClose={() => setActiveModal(null)} session={session} /> },
     { id: 'music', label: 'Our Song', icon: <Music />, gradient: 'linear-gradient(to bottom right, #34d399, #0d9488)', component: <MusicPlayer onClose={() => setActiveModal(null)} /> },
     { id: 'places', label: 'Places', icon: <MapPin />, gradient: 'linear-gradient(to bottom right, #fb923c, #f59e0b)', component: <Places onClose={() => setActiveModal(null)} /> },
@@ -70,16 +70,16 @@ export default function App() {
           >
             <button
               onClick={handleLogout}
-              style={{ position: 'absolute', right: 0, top: 0, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer' }}
+              style={{ position: 'absolute', right: 0, top: 0, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
               title="Sign Out"
             >
-              <LogOut size={20} />
+              <LogOut size={16} />
             </button>
             <div className="logo-container">
-              <Heart fill="white" size={32} color="white" />
+              <Heart fill="black" size={24} color="black" />
             </div>
-            <h1 className="app-title">Us Two</h1>
-            <p className="app-subtitle">Our little corner of the internet</p>
+            <h1 className="app-title">US TWO</h1>
+            <p className="app-subtitle">OUR DIGITAL HOME</p>
           </motion.div>
         </header>
 
@@ -90,12 +90,12 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, translateY: -5 }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setActiveModal(item.id)}
-              className={`bento-card card-${index}`}
+              className={`bento-card`}
             >
-              <div className="card-icon-bg" style={{ background: item.gradient }}>
+              <div className="card-icon-bg">
                 {item.icon}
               </div>
               <h3 className="card-title">{item.label}</h3>
@@ -104,7 +104,7 @@ export default function App() {
         </main>
 
         <footer className="app-footer">
-          <p>Made with ❤️ for us</p>
+          <p>© 2025</p>
         </footer>
       </div>
 
