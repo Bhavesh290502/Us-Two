@@ -14,7 +14,7 @@ import { supabase } from './supabase';
 import './App.css';
 
 // REPLACE THIS URL WITH YOUR FIXED BACKGROUND IMAGE
-const BACKGROUND_IMAGE_URL = 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=2544&auto=format&fit=crop'; // Example B&W Love Image
+const BACKGROUND_IMAGE_URL = '/bg.jpg';
 
 export default function App() {
   const [session, setSession] = useState(null);
