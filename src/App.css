@@ -4,7 +4,8 @@
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-  --primary-color: #ffffff; /* White as primary */
+  --primary-color: #ffffff;
+  /* White as primary */
   --text-light: #ffffff;
   --text-dim: rgba(255, 255, 255, 0.6);
   --bg-overlay: rgba(0, 0, 0, 0.95);
@@ -16,11 +17,12 @@ body {
   font-family: 'Outfit', sans-serif;
   background-color: #000;
   color: var(--text-light);
-  overflow: hidden; /* No scrolling on body */
+  overflow: hidden;
+  /* No scrolling on body */
 }
 
-/* Background Slider - Simplified to subtle texture or black */
-.background-slider {
+/* Background Slider - Simplified to fixed image */
+.fixed-background {
   position: fixed;
   top: 0;
   left: 0;
@@ -28,13 +30,30 @@ body {
   height: 100%;
   z-index: 0;
   background-color: #050505;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
 }
 
-.background-slider img {
-  opacity: 0; /* Hide images for B&W minimalist look, or use grayscale filter */
-  filter: grayscale(100%) contrast(1.2);
+.fixed-background .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  /* Adjust this for darkness level */
+  z-index: 1;
+}
+
+.fixed-background img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.1);
+  /* Keep B&W theme */
+  opacity: 0.6;
+  /* Slight fade so content pops */
 }
 
 /* App Layout */
@@ -84,7 +103,7 @@ body {
   font-weight: 700;
   margin: 0;
   color: white;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   letter-spacing: -0.02em;
 }
 
@@ -117,13 +136,15 @@ body {
   height: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  overflow: hidden; /* Ensure no scroll */
+  overflow: hidden;
+  /* Ensure no scroll */
 }
 
 .bento-card {
   background: rgba(10, 10, 10, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px; /* Sharper corners for B&W brutalist/modern feel */
+  border-radius: 4px;
+  /* Sharper corners for B&W brutalist/modern feel */
   padding: 1rem;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -148,7 +169,7 @@ body {
 }
 
 .bento-card:hover .card-icon-bg {
-    color: #000;
+  color: #000;
 }
 
 .bento-card:active {
@@ -171,14 +192,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent !important; /* Override inline gradients */
+  background: transparent !important;
+  /* Override inline gradients */
   color: white;
   transition: color 0.3s;
 }
 
 .card-icon-bg svg {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 /* Modals */
@@ -196,27 +218,28 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background-color: rgba(0,0,0,0.85);
+  background-color: rgba(0, 0, 0, 0.85);
   backdrop-filter: grayscale(100%);
 }
 
 .modal-content {
   background: #000000;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0; /* Square edges */
+  border-radius: 0;
+  /* Square edges */
   width: 100%;
   max-width: 800px;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 0 50px rgba(0,0,0,0.8);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   position: relative;
 }
 
 .modal-header {
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -238,7 +261,7 @@ body {
 
 .close-btn {
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   cursor: pointer;
   padding: 0.5rem;
@@ -271,7 +294,7 @@ body {
 .input-field:focus {
   outline: none;
   border-color: white;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .btn-primary {
@@ -296,7 +319,7 @@ body {
 .btn-secondary {
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 0.75rem 1.5rem;
   margin-right: 0.5rem;
   border-radius: 0;
@@ -316,9 +339,11 @@ body {
 .memory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1px; /* Tighter gap */
-  background: rgba(255,255,255,0.1); /* Separator color */
-  border: 1px solid rgba(255,255,255,0.1);
+  gap: 1px;
+  /* Tighter gap */
+  background: rgba(255, 255, 255, 0.1);
+  /* Separator color */
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .memory-card {
@@ -326,22 +351,27 @@ body {
   border-radius: 0;
   overflow: hidden;
   position: relative;
-  aspect-ratio: 1; /* Square */
+  aspect-ratio: 1;
+  /* Square */
   transition: filter 0.3s;
 }
 
 .memory-card:hover {
-    filter: brightness(1.2);
-    z-index: 2;
+  filter: brightness(1.2);
+  z-index: 2;
 }
 
-.memory-card img, .memory-card video {
-    filter: grayscale(100%); /* Force B&W for images in grid */
-    transition: filter 0.3s;
+.memory-card img,
+.memory-card video {
+  filter: grayscale(100%);
+  /* Force B&W for images in grid */
+  transition: filter 0.3s;
 }
 
-.memory-card:hover img, .memory-card:hover video {
-    filter: grayscale(0%); /* Color on hover */
+.memory-card:hover img,
+.memory-card:hover video {
+  filter: grayscale(0%);
+  /* Color on hover */
 }
 
 /* Chat Styles */
@@ -367,7 +397,7 @@ body {
 
 .chat-bubble.partner {
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   align-self: flex-start;
 }
 
@@ -376,7 +406,8 @@ body {
   .bento-grid {
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Allow scroll on mobile if needed, but prefer not to */
+    overflow-y: auto;
+    /* Allow scroll on mobile if needed, but prefer not to */
     height: auto;
     padding-bottom: 2rem;
   }
@@ -388,7 +419,7 @@ body {
   }
 
   .app-header {
-      margin-bottom: 1rem;
+    margin-bottom: 1rem;
   }
 }
 
@@ -398,8 +429,8 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   text-align: center;
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .countdown-item {

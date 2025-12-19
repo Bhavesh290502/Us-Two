@@ -10,6 +10,11 @@ export default function Chat({ onClose, session }) {
     const userEmail = session?.user?.email;
 
     useEffect(() => {
+        // Request notification permission
+        if (Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
         // Fetch initial messages
         const fetchMessages = async () => {
             const { data, error } = await supabase
@@ -26,7 +31,22 @@ export default function Chat({ onClose, session }) {
         const channel = supabase
             .channel('chat_channel')
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, (payload) => {
-                setMessages((prev) => [...prev, payload.new]);
+                setMessages((prev) => {
+                    if (prev.some(msg => msg.id === payload.new.id)) return prev;
+
+                    // Send notification if not from me
+                    if (payload.new.sender !== userEmail && Notification.permission === 'granted') {
+                        // Check if document is hidden to avoid annoying notifications while active
+                        if (document.visibilityState === 'hidden') {
+                            new Notification('New Love Note', {
+                                body: payload.new.text,
+                                icon: '/pwa-192x192.png' // Optional: requires a valid icon path
+                            });
+                        }
+                    }
+
+                    return [...prev, payload.new];
+                });
             })
             .subscribe();
 
@@ -49,14 +69,26 @@ export default function Chat({ onClose, session }) {
             timestamp: new Date().toISOString()
         };
 
-        const { error } = await supabase
-            .from('chat')
-            .insert([message]);
+        try {
+            const { data, error } = await supabase
+                .from('chat')
+                .insert([message])
+                .select();
 
-        if (error) {
+            if (error) throw error;
+
+            if (data) {
+                setNewMessage('');
+                // Immediately add to local state
+                setMessages((prev) => {
+                    // Prevent duplicates if subscription fires quickly
+                    if (prev.some(msg => msg.id === data[0].id)) return prev;
+                    return [...prev, data[0]];
+                });
+            }
+        } catch (error) {
             console.error('Error sending message:', error);
-        } else {
-            setNewMessage('');
+            alert('Failed to send message');
         }
     };
 

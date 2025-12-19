@@ -102,41 +102,41 @@ export default function OpenWhen({ onClose }) {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            style={{ background: '#fff1f2', color: '#881337', padding: '2rem', borderRadius: '12px', position: 'relative' }}
+                            style={{ background: '#fff', color: '#000', padding: '2rem', borderRadius: '4px', position: 'relative' }}
                         >
                             <button
                                 onClick={() => setReadingLetter(null)}
-                                style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#881337' }}
+                                style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'transparent', border: 'none', cursor: 'pointer', color: '#000' }}
                             >
                                 <X size={20} />
                             </button>
-                            <h3 style={{ marginTop: 0, fontFamily: 'Playfair Display, serif', fontSize: '1.5rem' }}>Open When {readingLetter.title}</h3>
-                            <p style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8' }}>{readingLetter.content}</p>
+                            <h3 style={{ marginTop: 0, fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', borderBottom: '1px solid #111', paddingBottom: '0.5rem', marginBottom: '1rem' }}>Open When {readingLetter.title}</h3>
+                            <p style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', fontFamily: 'serif', fontSize: '1.1rem' }}>{readingLetter.content}</p>
                         </motion.div>
                     ) : (
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
                             {letters.map((letter) => (
                                 <motion.div
                                     key={letter.id}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                     style={{
-                                        background: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%)',
-                                        borderRadius: '12px', padding: '1.5rem', cursor: 'pointer',
+                                        background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        borderRadius: '4px', padding: '1.5rem', cursor: 'pointer',
                                         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                                         textAlign: 'center', aspectRatio: '1/1', position: 'relative',
-                                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                                     }}
                                     onClick={() => setReadingLetter(letter)}
                                 >
                                     <button
                                         onClick={(e) => { e.stopPropagation(); deleteLetter(letter.id); }}
-                                        style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: 'transparent', border: 'none', color: '#881337', opacity: 0.5, cursor: 'pointer' }}
+                                        style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', background: 'transparent', border: 'none', color: 'white', opacity: 0.3, cursor: 'pointer' }}
                                     >
                                         <Trash2 size={14} />
                                     </button>
-                                    <Mail size={32} color="#e11d48" style={{ marginBottom: '0.5rem' }} />
-                                    <p style={{ color: '#881337', fontWeight: 'bold', margin: 0, fontSize: '0.9rem' }}>{letter.title}</p>
+                                    <Mail size={32} color="white" style={{ marginBottom: '0.5rem', opacity: 0.8 }} />
+                                    <p style={{ color: 'white', fontWeight: 'bold', margin: 0, fontSize: '0.9rem', opacity: 0.9 }}>{letter.title}</p>
                                 </motion.div>
                             ))}
                         </div>

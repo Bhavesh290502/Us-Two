@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, LogOut, Gift, Settings as SettingsIcon } from 'lucide-react';
-import BackgroundSlider from './components/BackgroundSlider';
+import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, LogOut, Gift } from 'lucide-react';
 import MemoriesGallery from './components/MemoriesGallery';
 import BucketList from './components/BucketList';
 
 import Login from './components/Login';
 import Chat from './components/Chat';
-import MusicPlayer from './components/MusicPlayer';
 import Places from './components/Places';
-import Countdown from './components/Countdown';
 import OpenWhen from './components/OpenWhen';
 import Wishlist from './components/Wishlist';
 import AppLock from './components/AppLock';
-import Settings from './components/Settings';
 import { supabase } from './supabase';
 import './App.css';
+
+// REPLACE THIS URL WITH YOUR FIXED BACKGROUND IMAGE
+const BACKGROUND_IMAGE_URL = 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=2544&auto=format&fit=crop'; // Example B&W Love Image
 
 export default function App() {
   const [session, setSession] = useState(null);
@@ -48,17 +47,17 @@ export default function App() {
     { id: 'bucketlist', label: 'Bucket List', icon: <List />, gradient: 'linear-gradient(to bottom right, #a855f7, #6366f1)', component: <BucketList onClose={() => setActiveModal(null)} /> },
 
     { id: 'chat', label: 'Love Notes', icon: <MessageCircle />, gradient: 'linear-gradient(to bottom right, #f87171, #db2777)', component: <Chat onClose={() => setActiveModal(null)} session={session} /> },
-    { id: 'music', label: 'Our Song', icon: <Music />, gradient: 'linear-gradient(to bottom right, #34d399, #0d9488)', component: <MusicPlayer onClose={() => setActiveModal(null)} /> },
     { id: 'places', label: 'Places', icon: <MapPin />, gradient: 'linear-gradient(to bottom right, #fb923c, #f59e0b)', component: <Places onClose={() => setActiveModal(null)} /> },
-    { id: 'countdown', label: 'Countdown', icon: <Clock />, gradient: 'linear-gradient(to bottom right, #d946ef, #9333ea)', component: <Countdown onClose={() => setActiveModal(null)} /> },
     { id: 'openwhen', label: 'Open When', icon: <Mail />, gradient: 'linear-gradient(to bottom right, #fb7185, #ef4444)', component: <OpenWhen onClose={() => setActiveModal(null)} /> },
     { id: 'wishlist', label: 'Wishlist', icon: <Gift />, gradient: 'linear-gradient(to bottom right, #f472b6, #db2777)', component: <Wishlist onClose={() => setActiveModal(null)} /> },
-    { id: 'settings', label: 'Settings', icon: <SettingsIcon />, gradient: 'linear-gradient(to bottom right, #94a3b8, #475569)', component: <Settings onClose={() => setActiveModal(null)} /> },
   ];
 
   return (
     <div className="app-container">
-      <BackgroundSlider />
+      <div className="fixed-background">
+        <div className="overlay"></div>
+        <img src={BACKGROUND_IMAGE_URL} alt="Background" />
+      </div>
 
       <div className="content-container">
         <header className="app-header">
