@@ -36,13 +36,10 @@ export default function Chat({ onClose, session }) {
 
                     // Send notification if not from me
                     if (payload.new.sender !== userEmail && Notification.permission === 'granted') {
-                        // Check if document is hidden to avoid annoying notifications while active
-                        if (document.visibilityState === 'hidden') {
-                            new Notification('New Love Note', {
-                                body: payload.new.text,
-                                icon: '/pwa-192x192.png' // Optional: requires a valid icon path
-                            });
-                        }
+                        new Notification('New Love Note', {
+                            body: payload.new.text,
+                            // icon: '/bg.jpg' // Optional: simplified
+                        });
                     }
 
                     return [...prev, payload.new];
