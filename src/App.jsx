@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, LogOut, Gift, Bell, BellRing } from 'lucide-react';
+import { Heart, Camera, List, Moon, MessageCircle, Music, MapPin, Clock, Mail, LogOut, Gift } from 'lucide-react';
 import MemoriesGallery from './components/MemoriesGallery';
 import BucketList from './components/BucketList';
 
@@ -20,14 +20,6 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [isLocked, setIsLocked] = useState(true);
-
-  const [notificationsEnabled, setNotificationsEnabled] = useState(Notification.permission === 'granted');
-  const activeModalRef = useRef(activeModal);
-
-  useEffect(() => {
-    activeModalRef.current = activeModal;
-  }, [activeModal]);
-
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -42,25 +34,6 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (!session) return;
-    const userEmail = session.user?.email;
-
-    const channel = supabase
-        .channel('global_chat_notifications')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, (payload) => {
-            if (payload.new.sender !== userEmail && activeModalRef.current !== 'chat' && Notification.permission === 'granted') {
-                new Notification('New Love Note 💌', {
-                    body: payload.new.text,
-                });
-            }
-        })
-        .subscribe();
-
-    return () => {
-        supabase.removeChannel(channel);
-    };
-  }, [session]);
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to sign out?')) {
@@ -96,31 +69,13 @@ export default function App() {
             transition={{ duration: 0.8 }}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: '100%' }}
           >
-            <div style={{ position: 'absolute', right: 0, top: 0, display: 'flex', gap: '1rem' }}>
-              <button
-                onClick={() => {
-                    Notification.requestPermission().then(permission => {
-                        setNotificationsEnabled(permission === 'granted');
-                        if (permission === 'granted') {
-                            alert('Notifications enabled! You will now receive alerts when you get a new Love Note.');
-                        } else {
-                            alert('Notifications permission was denied. You may need to enable it in your browser settings.');
-                        }
-                    });
-                }}
-                style={{ background: 'transparent', border: 'none', color: notificationsEnabled ? '#f472b6' : 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
-                title={notificationsEnabled ? "Notifications Enabled" : "Enable Notifications"}
-              >
-                {notificationsEnabled ? <BellRing size={16} /> : <Bell size={16} />}
-              </button>
-              <button
-                onClick={handleLogout}
-                style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
-                title="Sign Out"
-              >
-                <LogOut size={16} />
-              </button>
-            </div>
+            <button
+              onClick={handleLogout}
+              style={{ position: 'absolute', right: 0, top: 0, background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.3)', cursor: 'pointer' }}
+              title="Sign Out"
+            >
+              <LogOut size={16} />
+            </button>
             <div className="logo-container">
               <Heart fill="black" size={24} color="black" />
             </div>
