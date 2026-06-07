@@ -10,10 +10,7 @@ export default function Chat({ onClose, session }) {
     const userEmail = session?.user?.email;
 
     useEffect(() => {
-        // Request notification permission
-        if (Notification.permission === 'default') {
-            Notification.requestPermission();
-        }
+
 
         // Fetch initial messages
         const fetchMessages = async () => {
@@ -34,13 +31,7 @@ export default function Chat({ onClose, session }) {
                 setMessages((prev) => {
                     if (prev.some(msg => msg.id === payload.new.id)) return prev;
 
-                    // Send notification if not from me
-                    if (payload.new.sender !== userEmail && Notification.permission === 'granted') {
-                        new Notification('New Love Note', {
-                            body: payload.new.text,
-                            // icon: '/bg.jpg' // Optional: simplified
-                        });
-                    }
+
 
                     return [...prev, payload.new];
                 });
