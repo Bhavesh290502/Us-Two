@@ -47,9 +47,7 @@ export default function Login() {
                 />
             </div>
 
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
+            <div
                 className="modal-content"
                 style={{ maxWidth: '400px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10, padding: '2.5rem' }}
             >
@@ -124,7 +122,7 @@ export default function Login() {
                 >
                     {isSignUp ? "Already have an account? Sign In" : "First time here? Create Account"}
                 </button>
-            </motion.div>
+            </div>
         </div>
     );
 }
