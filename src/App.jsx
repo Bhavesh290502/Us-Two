@@ -49,12 +49,7 @@ export default function App() {
     const channel = supabase
         .channel('global_chat_notifications')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, (payload) => {
-            console.log("Realtime payload received:", payload);
-            console.log("Current active modal:", activeModalRef.current);
-            console.log("Notification permission:", Notification.permission);
-            
-            if (activeModalRef.current !== 'chat' && Notification.permission === 'granted') {
-                console.log("Attempting to trigger notification...");
+            if (payload.new.sender !== userEmail && activeModalRef.current !== 'chat' && Notification.permission === 'granted') {
                 new Notification('New Love Note 💌', {
                     body: payload.new.text,
                 });
