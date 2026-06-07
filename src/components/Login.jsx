@@ -39,11 +39,11 @@ export default function Login() {
 
     return (
         <div className="modal-overlay" style={{ zIndex: 100 }}>
-            <div className="background-slider">
+            <div className="background-slider" style={{ position: 'absolute', inset: 0, zIndex: -1 }}>
                 <img
                     src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop"
                     alt="Background"
-                    style={{ opacity: 0.3, filter: 'blur(4px)' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3, filter: 'blur(4px)' }}
                 />
             </div>
 
